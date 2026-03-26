@@ -85,7 +85,7 @@ const FeedbackForm = () => {
         <CardHeader className="text-center">
           <CardTitle className="text-3xl md:text-4xl text-green-400 mb-2 flex items-center justify-center gap-2">
             <Mail className="w-8 h-8" />
-            Send Feedback
+            Send Feedback - HARI DARSHINI
           </CardTitle>
           <CardDescription className="text-gray-300 text-lg">
             We'd love to hear your thoughts about the cricket game!

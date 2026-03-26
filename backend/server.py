@@ -71,7 +71,7 @@ class FeedbackCreate(BaseModel):
 # Routes
 @api_router.get("/")
 async def root():
-    return {"message": "Cricket Game API is running!"}
+    return {"message": "HARI DARSHINI Cricket Game API is running!"}
 
 @api_router.post("/save-score", response_model=GameScore)
 async def save_score(input: GameScoreCreate):
@@ -121,7 +121,7 @@ async def send_feedback(input: FeedbackCreate):
             <html>
                 <body style="font-family: Arial, sans-serif; padding: 20px; background-color: #1a1a1a; color: #ffffff;">
                     <div style="max-width: 600px; margin: 0 auto; background-color: #2a2a2a; padding: 30px; border-radius: 10px;">
-                        <h2 style="color: #4ade80;">🏏 New Cricket Game Feedback</h2>
+                        <h2 style="color: #4ade80;">🏏 HARI DARSHINI - New Feedback</h2>
                         <div style="margin: 20px 0; padding: 15px; background-color: #1a1a1a; border-radius: 5px;">
                             <p><strong>Name:</strong> {input.name}</p>
                             <p><strong>Email:</strong> {input.email}</p>
@@ -137,7 +137,7 @@ async def send_feedback(input: FeedbackCreate):
             params = {
                 "from": SENDER_EMAIL,
                 "to": ["hari.darshini.612@gmail.com"],
-                "subject": f"Cricket Game Feedback from {input.name}",
+                "subject": f"HARI DARSHINI - Feedback from {input.name}",
                 "html": html_content
             }
             

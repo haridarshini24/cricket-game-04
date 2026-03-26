@@ -46,7 +46,7 @@ const Leaderboard = () => {
         <CardHeader className="text-center">
           <CardTitle className="text-3xl md:text-4xl text-green-400 mb-2 flex items-center justify-center gap-2">
             <Trophy className="w-10 h-10" />
-            Leaderboard
+            HARI DARSHINI - Leaderboard
           </CardTitle>
           <CardDescription className="text-gray-300 text-lg">
             Top Cricket Players

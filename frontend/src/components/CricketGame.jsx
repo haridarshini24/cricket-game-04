@@ -103,7 +103,7 @@ const CricketGame = () => {
         <Card className="bg-gray-800 border-gray-700" data-testid="game-menu">
           <CardHeader className="text-center">
             <CardTitle className="text-4xl md:text-5xl text-green-400 mb-4">
-              🏏 Cricket Challenge
+              🏏 HARI DARSHINI
             </CardTitle>
             <CardDescription className="text-gray-300 text-lg">
               Hit as many runs as you can before losing 3 wickets!
