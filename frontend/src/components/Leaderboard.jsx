@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Medal, Award } from "lucide-react";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const Leaderboard = () => {
   const [scores, setScores] = useState([]);
@@ -15,12 +11,15 @@ const Leaderboard = () => {
     fetchScores();
   }, []);
 
-  const fetchScores = async () => {
+  const fetchScores = () => {
     try {
-      const response = await axios.get(`${API}/scores?limit=10`);
-      setScores(response.data);
+      const storedScores = JSON.parse(localStorage.getItem('cricket_scores') || '[]');
+      // Sort by score descending and take top 10
+      const topScores = storedScores.sort((a, b) => b.score - a.score).slice(0, 10);
+      setScores(topScores);
     } catch (error) {
       console.error("Error fetching scores:", error);
+      setScores([]);
     } finally {
       setLoading(false);
     }

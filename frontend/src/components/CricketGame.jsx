@@ -1,14 +1,10 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PlayCircle, RotateCcw } from "lucide-react";
 import "@/styles/cricket.css";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const CricketGame = () => {
   const [gameState, setGameState] = useState("menu"); // menu, playing, gameover
@@ -72,16 +68,23 @@ const CricketGame = () => {
     }, 1500);
   };
 
-  const endGame = async () => {
+  const endGame = () => {
     setGameState("gameover");
     
-    // Save score to backend
+    // Save score to localStorage
     try {
-      await axios.post(`${API}/save-score`, {
+      const scores = JSON.parse(localStorage.getItem('cricket_scores') || '[]');
+      const newScore = {
+        id: Date.now().toString(),
         player_name: playerName,
         score: score,
-        wickets: wickets
-      });
+        wickets: wickets,
+        timestamp: new Date().toISOString()
+      };
+      scores.push(newScore);
+      // Keep only top 100 scores
+      scores.sort((a, b) => b.score - a.score);
+      localStorage.setItem('cricket_scores', JSON.stringify(scores.slice(0, 100)));
     } catch (error) {
       console.error("Error saving score:", error);
     }

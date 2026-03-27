@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,9 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { Mail, Send, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const FeedbackForm = () => {
   const [formData, setFormData] = useState({
@@ -28,19 +24,25 @@ const FeedbackForm = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(`${API}/send-feedback`, formData);
+      // Save feedback to localStorage
+      const feedback = JSON.parse(localStorage.getItem('cricket_feedback') || '[]');
+      const newFeedback = {
+        id: Date.now().toString(),
+        ...formData,
+        timestamp: new Date().toISOString()
+      };
+      feedback.push(newFeedback);
+      localStorage.setItem('cricket_feedback', JSON.stringify(feedback));
       
       setSubmitted(true);
       toast({
-        title: "Feedback Sent! 🎉",
-        description: response.data.email_sent 
-          ? "Your feedback has been sent to hari.darshini.612@gmail.com"
-          : "Your feedback has been saved successfully!",
+        title: "Feedback Saved! 🎉",
+        description: "Your feedback has been saved locally. Thank you!",
       });
       
       // Reset form
@@ -49,10 +51,10 @@ const FeedbackForm = () => {
         setSubmitted(false);
       }, 3000);
     } catch (error) {
-      console.error("Error sending feedback:", error);
+      console.error("Error saving feedback:", error);
       toast({
         title: "Error",
-        description: "Failed to send feedback. Please try again.",
+        description: "Failed to save feedback. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -169,7 +171,7 @@ const FeedbackForm = () => {
             </Button>
 
             <p className="text-center text-gray-400 text-sm">
-              Your feedback will be sent to: <strong className="text-green-400">hari.darshini.612@gmail.com</strong>
+              Your feedback will be saved locally in your browser
             </p>
           </form>
         </CardContent>

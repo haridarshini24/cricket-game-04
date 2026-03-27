@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Frontend-Only CI/CD Pipeline
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # Frontend Tests & Build
+  # Frontend Build & Deploy
   frontend:
     runs-on: ubuntu-latest
     
@@ -28,11 +28,6 @@ jobs:
       run: |
         yarn install --frozen-lockfile || yarn install
       
-    - name: Create environment file
-      run: |
-        echo "REACT_APP_BACKEND_URL=${{ secrets.REACT_APP_BACKEND_URL || 'http://localhost:8001' }}" > .env.production
-        cat .env.production
-      
     - name: Build frontend
       run: |
         CI=false yarn build
@@ -41,7 +36,6 @@ jobs:
         test -f build/index.html && echo "✅ index.html created successfully!" || echo "❌ index.html not found!"
       env:
         CI: false
-        REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL || 'http://localhost:8001' }}
       
     - name: Upload frontend build artifacts
       uses: actions/upload-artifact@v4
@@ -51,42 +45,9 @@ jobs:
         retention-days: 7
         if-no-files-found: error
 
-  # Backend Tests
-  backend:
-    runs-on: ubuntu-latest
-    
-    defaults:
-      run:
-        working-directory: backend
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        
-    - name: Lint backend code (optional)
-      continue-on-error: true
-      run: |
-        pip install flake8 || true
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=venv,__pycache__ || echo "Linting completed with warnings"
-        
-    - name: Check Python syntax
-      run: |
-        python -m py_compile server.py
-        echo "✅ Backend syntax is valid!"
-
-  # Deploy to hosting (example for VPS/Cloud)
+  # Deploy (optional - configure when ready)
   deploy:
-    needs: [frontend, backend]
+    needs: [frontend]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
@@ -104,24 +65,9 @@ jobs:
       run: |
         echo "Checking downloaded build files..."
         ls -la frontend/build/
-        test -f frontend/build/index.html && echo "✅ index.html found in artifacts!" || echo "❌ index.html missing!"
+        test -f frontend/build/index.html && echo "✅ index.html found!" || echo "❌ index.html missing!"
         
-    # Uncomment and configure for actual deployment
-    # - name: Deploy to server via SSH
-    #   uses: appleboy/ssh-action@v1.0.0
-    #   with:
-    #     host: ${{ secrets.DEPLOY_HOST }}
-    #     username: ${{ secrets.DEPLOY_USER }}
-    #     key: ${{ secrets.DEPLOY_SSH_KEY }}
-    #     script: |
-    #       cd /var/www/hari-darshini
-    #       git pull origin main
-    #       cd frontend && yarn install && yarn build
-    #       cd ../backend && pip install -r requirements.txt
-    #       sudo systemctl restart cricket-backend
-    #       sudo systemctl restart nginx
-          
-    # Alternative: Deploy via FTP
+    # Uncomment to deploy via FTP
     # - name: FTP Deploy
     #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
     #   with:
@@ -130,3 +76,15 @@ jobs:
     #     password: ${{ secrets.FTP_PASSWORD }}
     #     local-dir: ./frontend/build/
     #     server-dir: /public_html/
+    
+    # Uncomment to deploy to Netlify
+    # - name: Deploy to Netlify
+    #   uses: nwtgck/actions-netlify@v2.0
+    #   with:
+    #     publish-dir: './frontend/build'
+    #     production-branch: main
+    #     github-token: ${{ secrets.GITHUB_TOKEN }}
+    #     deploy-message: "Deploy from GitHub Actions"
+    #   env:
+    #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+    #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

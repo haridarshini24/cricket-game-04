@@ -1,251 +1,279 @@
-# 🏏 Cricket Game - Full Stack Web Application
+# 🏏 HARI DARSHINI - Frontend-Only Cricket Game
 
-A fun and interactive cricket game built with React (frontend) and FastAPI (backend). Features animated gameplay, leaderboard, workflow visualization, and feedback system.
+A fully client-side cricket game built with React. All data is stored in browser localStorage - **no backend required!**
 
-![Cricket Game](https://img.shields.io/badge/Game-Cricket-green)
 ![React](https://img.shields.io/badge/React-19.0-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.110-green)
-![MongoDB](https://img.shields.io/badge/MongoDB-Latest-green)
+![Tailwind](https://img.shields.io/badge/Tailwind-3.4-blue)
+![LocalStorage](https://img.shields.io/badge/Storage-LocalStorage-green)
 
 ## ✨ Features
 
-- 🏏 **Interactive Cricket Game** - Batsman, bowler, and umpire with smooth animations
-- 🏆 **Leaderboard** - Track top scores from all players
-- 🚀 **Workflow Visualization** - Complete development pipeline diagram
-- 📧 **Feedback System** - Send feedback via email
-- 🌑 **Dark Theme** - Easy on the eyes
-- 📱 **Responsive Design** - Works on mobile, tablet, and desktop
+- 🏏 **Interactive Cricket Game** - Batsman, bowler, umpire with smooth animations
+- 🏆 **Leaderboard** - Top 10 scores stored in localStorage
+- 🚀 **Workflow Diagram** - Complete development pipeline visualization
+- 📝 **Feedback System** - Save feedback locally
+- 🌙 **Dark Theme** - Professional dark mode
+- 📱 **Fully Responsive** - Works on mobile, tablet, desktop
+- ⚡ **No Backend Needed** - Everything runs in the browser!
 
-## 🛠️ Tech Stack
+## 🎮 How to Play
 
-### Frontend
-- **React 19** - UI library
-- **Tailwind CSS** - Styling
-- **Radix UI** - Component library
-- **Axios** - HTTP client
-- **React Router** - Navigation
-
-### Backend
-- **FastAPI** - Python web framework
-- **MongoDB** - Database
-- **Motor** - Async MongoDB driver
-- **Resend** - Email service
-- **Pydantic** - Data validation
+1. Enter your name
+2. Click "Hit Ball" to play your shot
+3. Score runs (0, 1, 2, 3, 4, or 6)
+4. Avoid getting OUT 3 times
+5. Your score is automatically saved!
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Node.js 18+ and Yarn
-- Python 3.11+
-- MongoDB (local or cloud)
-- Git
+- Modern web browser
 
 ### Installation
 
-1. **Clone the repository**
-
 ```bash
+# Clone repository
 git clone <your-repo-url>
-cd cricket-game
-```
-
-2. **Backend Setup**
-
-```bash
-cd backend
-
-# Create virtual environment (optional)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+cd hari-darshini
 
 # Install dependencies
-pip install -r requirements.txt
-
-# Create .env file
-cp .env.example .env
-
-# Edit .env and add your configuration:
-# MONGO_URL=mongodb://localhost:27017
-# DB_NAME=cricket_game
-# RESEND_API_KEY=your_resend_api_key  # Optional
-# SENDER_EMAIL=onboarding@resend.dev
-```
-
-3. **Frontend Setup**
-
-```bash
-cd ../frontend
-
-# Install dependencies
+cd frontend
 yarn install
 
-# Create .env file
-echo "REACT_APP_BACKEND_URL=http://localhost:8001" > .env
-```
-
-4. **Start MongoDB**
-
-```bash
-# If using local MongoDB
-mongod --dbpath /path/to/data/directory
-
-# Or use MongoDB Atlas (cloud)
-```
-
-5. **Run the Application**
-
-```bash
-# Terminal 1 - Backend
-cd backend
-uvicorn server:app --host 0.0.0.0 --port 8001 --reload
-
-# Terminal 2 - Frontend
-cd frontend
+# Start development server
 yarn start
 ```
 
-6. **Access the Application**
+Open http://localhost:3000 in your browser!
 
-Open your browser and navigate to:
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:8001/api`
-- API Docs: `http://localhost:8001/docs`
+## 📦 Build for Production
 
-## 🎮 How to Play
+```bash
+cd frontend
+yarn build
+```
 
-1. **Start Game** - Enter your name and click "Start Game"
-2. **Hit the Ball** - Click "Hit Ball" to play your shot
-3. **Score Runs** - Try to score as many runs as possible (0, 1, 2, 3, 4, or 6)
-4. **Avoid Getting Out** - You have 3 wickets. Game ends when you lose all wickets
-5. **View Leaderboard** - Check top scores from all players
-6. **Send Feedback** - Share your thoughts about the game
+The `build/` folder will contain all static files ready to deploy.
+
+## 🌐 Deployment Options
+
+### Option 1: Netlify (Easiest)
+```bash
+npm install -g netlify-cli
+cd frontend
+netlify deploy --prod --dir=build
+```
+
+### Option 2: Vercel
+```bash
+npm install -g vercel
+cd frontend
+vercel --prod
+```
+
+### Option 3: GitHub Pages
+```bash
+# Add to package.json:
+"homepage": "https://yourusername.github.io/hari-darshini"
+
+# Deploy
+yarn build
+gh-pages -d build
+```
+
+### Option 4: Traditional FTP
+1. Build: `yarn build`
+2. Upload `build/` folder contents to your hosting
+3. Upload to `public_html/` or `www/` directory
+
+## 💾 Data Storage
+
+All data is stored in **browser localStorage**:
+- **Game Scores**: Up to 100 scores saved locally
+- **Feedback**: All feedback saved in browser
+- **No Database Required**: Everything is client-side!
+
+### Accessing Stored Data
+
+Open browser console and run:
+```javascript
+// View all scores
+JSON.parse(localStorage.getItem('cricket_scores'))
+
+// View all feedback
+JSON.parse(localStorage.getItem('cricket_feedback'))
+
+// Clear all data
+localStorage.clear()
+```
 
 ## 📁 Project Structure
 
 ```
-cricket-game/
-├── frontend/                  # React frontend
+hari-darshini/
+├── frontend/
 │   ├── src/
-│   │   ├── components/         # React components
-│   │   │   ├── CricketGame.jsx  # Main game component
-│   │   │   ├── Leaderboard.jsx  # Leaderboard component
-│   │   │   ├── WorkflowDiagram.jsx
-│   │   │   ├── FeedbackForm.jsx
-│   │   │   └── ui/              # UI components (buttons, cards, etc.)
+│   │   ├── components/
+│   │   │   ├── CricketGame.jsx      # Main game
+│   │   │   ├── Leaderboard.jsx      # Scores
+│   │   │   ├── WorkflowDiagram.jsx  # Dev workflow
+│   │   │   ├── FeedbackForm.jsx     # Feedback
+│   │   │   └── ui/                  # UI components
 │   │   ├── styles/
-│   │   │   └── cricket.css      # Cricket animations
-│   │   ├── App.js              # Main app component
-│   │   ├── App.css
-│   │   └── index.js
+│   │   │   └── cricket.css          # Animations
+│   │   ├── App.js                   # Main app
+│   │   └── index.js                 # Entry point
 │   ├── package.json
 │   └── tailwind.config.js
-├── backend/                   # FastAPI backend
-│   ├── server.py               # Main FastAPI app
-│   ├── requirements.txt        # Python dependencies
-│   ├── .env                    # Environment variables
-│   └── .env.example
-├── .github/
-│   └── workflows/
-│       └── ci-cd.yml           # GitHub Actions CI/CD
-├── DEPLOYMENT.md              # Deployment guide
-└── README.md                  # This file
+└── .github/
+    └── workflows/
+        └── ci-cd.yml                # GitHub Actions
 ```
 
-## 📧 Email Configuration (Optional)
+## 🛠️ Tech Stack
 
-To enable email notifications for feedback:
+- **React 19** - UI framework
+- **Tailwind CSS** - Styling
+- **Radix UI** - Component library
+- **Lucide React** - Icons
+- **LocalStorage API** - Data persistence
+- **CSS Animations** - Smooth gameplay animations
 
-1. Sign up at [Resend](https://resend.com)
-2. Create an API key
-3. Add to `backend/.env`:
-   ```
-   RESEND_API_KEY=re_your_api_key_here
-   SENDER_EMAIL=onboarding@resend.dev
-   ```
-4. Restart backend server
+## ⚙️ Available Scripts
 
-## 🚀 Deployment
-
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions including:
-
-- **GitHub Actions CI/CD** - Automated testing and deployment
-- **VPS/Cloud Deployment** - Deploy to DigitalOcean, AWS, etc.
-- **FTP Deployment** - Traditional hosting deployment
-- **Docker Deployment** - Containerized deployment
-- **Domain & DNS Setup** - Configure custom domain
-
-## 🧪 Testing
-
-### Frontend Testing
 ```bash
-cd frontend
-yarn test
+# Development
+yarn start          # Start dev server on port 3000
+
+# Production
+yarn build          # Create optimized build
+
+# Testing (optional)
+yarn test           # Run tests
 ```
 
-### Backend Testing
-```bash
-cd backend
-pytest tests/ -v
+## 🎨 Features Detail
+
+### Cricket Game
+- Animated batsman, bowler, umpire
+- Ball physics and animations
+- Random scoring system
+- 3 wickets game over
+- Auto-save to localStorage
+
+### Leaderboard
+- Top 10 scores displayed
+- Sorted by highest score
+- Shows player name, score, wickets
+- Real-time updates
+
+### Workflow Diagram
+- Visual development pipeline
+- Frontend → Git → GitHub → CI/CD → Deploy
+- FTP deployment option
+- User access flow
+
+### Feedback Form
+- Name, email, message fields
+- Saves to localStorage
+- Form validation
+
+## 🌐 Browser Support
+
+- ✅ Chrome/Edge (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Mobile browsers
+- ⚠️ Requires localStorage support
+
+## 🔧 Customization
+
+### Change Colors
+
+Edit `frontend/src/styles/cricket.css`:
+```css
+/* Batsman */
+.batsman .body { background: #10b981; }
+
+/* Bowler */
+.bowler .body { background: #3b82f6; }
+
+/* Field */
+.cricket-field { 
+  background: linear-gradient(180deg, #166534 0%, #15803d 100%);
+}
 ```
 
-### Linting
-```bash
-# Frontend
-cd frontend
-yarn lint
+### Change Game Rules
 
-# Backend
-cd backend
-flake8 .
-```
-
-## 📚 API Endpoints
-
-### Game Scores
-- `GET /api/` - Health check
-- `POST /api/save-score` - Save game score
-- `GET /api/scores?limit=10` - Get top scores
-
-### Feedback
-- `POST /api/send-feedback` - Send feedback email
-
-### Example API Call
-
+Edit `frontend/src/components/CricketGame.jsx`:
 ```javascript
-// Save score
-const response = await axios.post('/api/save-score', {
-  player_name: 'John Doe',
-  score: 42,
-  wickets: 2
-});
+// Line 27 - Available shots
+const shots = [0, 1, 2, 3, 4, 6, "OUT"];
 
-// Get leaderboard
-const scores = await axios.get('/api/scores?limit=10');
+// Line 64 - Wickets limit
+if (wickets >= 3)  // Change to any number
 ```
 
-## 👥 Contributing
+## 📝 GitHub Actions CI/CD
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Automated build pipeline included:
+- ✅ Builds on every push
+- ✅ Creates index.html
+- ✅ Tests build success
+- ✅ Ready for deployment
 
-## 📝 License
+## 🎯 Performance
 
-This project is open source and available under the [MIT License](LICENSE).
+- ⚡ Fast loading (no API calls)
+- 💾 Minimal storage usage
+- 🚀 Instant responses
+- 📱 Mobile optimized
+- 🎨 Smooth 60fps animations
 
-## 🙏 Acknowledgments
+## 🔒 Privacy
 
-- Built with ❤️ using React and FastAPI
-- Animations created with CSS keyframes
-- UI components from Radix UI and Tailwind CSS
+- ✅ No data sent to servers
+- ✅ Everything stored locally
+- ✅ No cookies or tracking
+- ✅ Works offline (after first load)
+- ✅ Complete privacy
 
-## 💬 Contact
+## 🆘 Troubleshooting
 
-For feedback or questions, use the in-app feedback form or email: **hari.darshini.612@gmail.com**
+### Scores not saving
+- Check if localStorage is enabled in browser
+- Try clearing cache and reload
+
+### Build fails
+```bash
+cd frontend
+rm -rf node_modules
+yarn install
+yarn build
+```
+
+### Page not loading
+- Clear browser cache
+- Check console for errors
+- Ensure JavaScript is enabled
+
+## 📄 License
+
+Open source - feel free to use and modify!
+
+## 🙏 Credits
+
+Built with:
+- React 19
+- Tailwind CSS
+- Radix UI
+- LocalStorage API
 
 ---
 
-**Enjoy the game! 🏏🏆**
+**No backend, no database, no complications - just pure cricket fun! 🏏⚡**
+
+For questions, use the in-app feedback form!
