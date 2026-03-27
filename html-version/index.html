@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HARI DARSHINI - Cricket Game with animations">
+    <title>HARI DARSHINI - Cricket Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="container">
+                <h1 class="title">🏏 HARI DARSHINI</h1>
+                <div class="nav-buttons">
+                    <button class="btn btn-primary" onclick="showView('game')">Play</button>
+                    <button class="btn btn-outline" onclick="showView('leaderboard')">🏆 Scores</button>
+                    <button class="btn btn-outline" onclick="showView('workflow')">💻 Workflow</button>
+                    <button class="btn btn-outline" onclick="showView('feedback')">💬 Feedback</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Game View -->
+            <div id="game-view" class="view active">
+                <!-- Menu Screen -->
+                <div id="menu-screen" class="screen active">
+                    <div class="card">
+                        <h2 class="card-title">🏏 HARI DARSHINI</h2>
+                        <p class="card-subtitle">Hit as many runs as you can before losing 3 wickets!</p>
+                        <div class="form-group">
+                            <label>Enter Your Name</label>
+                            <input type="text" id="player-name" placeholder="Your name..." class="input">
+                        </div>
+                        <button class="btn btn-large btn-primary" onclick="startGame()">
+                            ▶ Start Game
+                        </button>
+                        <div class="instructions">
+                            <p>🎯 Click "Hit Ball" to play your shot</p>
+                            <p>🏆 Score runs: 0, 1, 2, 3, 4, or 6</p>
+                            <p>⚠️ Avoid getting OUT 3 times!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playing Screen -->
+                <div id="playing-screen" class="screen">
+                    <!-- Score Display -->
+                    <div class="score-cards">
+                        <div class="score-card">
+                            <div class="score-label">Score</div>
+                            <div class="score-value" id="score-display">0</div>
+                        </div>
+                        <div class="score-card">
+                            <div class="score-label">Wickets</div>
+                            <div class="score-value" id="wickets-display">0/3</div>
+                        </div>
+                        <div class="score-card">
+                            <div class="score-label">Balls</div>
+                            <div class="score-value" id="balls-display">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Cricket Field -->
+                    <div class="cricket-field-card">
+                        <div class="cricket-field" id="cricket-field">
+                            <!-- Stadium Background -->
+                            <div class="stadium-bg">
+                                <div class="stands"></div>
+                            </div>
+
+                            <!-- Pitch -->
+                            <div class="pitch"></div>
+
+                            <!-- Bowler -->
+                            <div class="bowler" id="bowler">
+                                <div class="bowler-body">
+                                    <div class="head"></div>
+                                    <div class="body"></div>
+                                    <div class="arm-left"></div>
+                                    <div class="arm-right"></div>
+                                    <div class="leg-left"></div>
+                                    <div class="leg-right"></div>
+                                </div>
+                            </div>
+
+                            <!-- Ball -->
+                            <div class="ball" id="ball" style="display: none;"></div>
+
+                            <!-- Batsman -->
+                            <div class="batsman" id="batsman">
+                                <div class="batsman-body">
+                                    <div class="head"></div>
+                                    <div class="body"></div>
+                                    <div class="bat"></div>
+                                    <div class="leg-left"></div>
+                                    <div class="leg-right"></div>
+                                </div>
+                            </div>
+
+                            <!-- Umpire -->
+                            <div class="umpire">
+                                <div class="umpire-body">
+                                    <div class="head"></div>
+                                    <div class="body"></div>
+                                    <div class="arm-left"></div>
+                                    <div class="arm-right"></div>
+                                </div>
+                            </div>
+
+                            <!-- Last Shot Display -->
+                            <div class="last-shot-display" id="last-shot" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Game Controls -->
+                    <div class="game-controls">
+                        <button class="btn btn-large btn-primary" id="hit-ball-btn" onclick="playShot()">
+                            🏏 Hit Ball!
+                        </button>
+                        <p class="hint">Click to play your shot</p>
+                    </div>
+                </div>
+
+                <!-- Game Over Screen -->
+                <div id="gameover-screen" class="screen">
+                    <div class="card">
+                        <h2 class="card-title game-over">Game Over!</h2>
+                        <p class="card-subtitle" id="player-name-display"></p>
+                        <div class="final-score-card">
+                            <div class="final-score-label">Final Score</div>
+                            <div class="final-score-value" id="final-score">0</div>
+                            <div class="stats-grid">
+                                <div>
+                                    <div class="stat-label">Balls Played</div>
+                                    <div class="stat-value" id="final-balls">0</div>
+                                </div>
+                                <div>
+                                    <div class="stat-label">Wickets Lost</div>
+                                    <div class="stat-value" id="final-wickets">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-large btn-primary" onclick="resetGame()">
+                            🔄 Play Again
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard View -->
+            <div id="leaderboard-view" class="view">
+                <div class="card wide-card">
+                    <h2 class="card-title">🏆 HARI DARSHINI - Leaderboard</h2>
+                    <p class="card-subtitle">Top Cricket Players</p>
+                    <div id="leaderboard-content">
+                        <div class="loading">Loading scores...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow View -->
+            <div id="workflow-view" class="view">
+                <div class="card wide-card">
+                    <h2 class="card-title">🚀 Development Workflow</h2>
+                    <p class="card-subtitle">From Code to Production: Complete Development Pipeline</p>
+                </div>
+                <div class="workflow-steps" id="workflow-steps"></div>
+                <div class="card wide-card">
+                    <h3 class="workflow-title">Alternative Deployment: FTP</h3>
+                    <div class="workflow-content">
+                        <p><strong>FTP Deployment:</strong> For traditional hosting, you can deploy using FTP:</p>
+                        <ol class="workflow-list">
+                            <li>Build your project: <code>npm run build</code></li>
+                            <li>Connect to your hosting via FTP client (FileZilla, Cyberduck)</li>
+                            <li>Upload build files to public_html or www directory</li>
+                            <li>Configure database connection on hosting</li>
+                            <li>Set up domain DNS to point to hosting server</li>
+                        </ol>
+                        <p class="workflow-note">💡 Modern approach uses CI/CD with GitHub Actions for automated deployment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback View -->
+            <div id="feedback-view" class="view">
+                <div id="feedback-form-container" class="card">
+                    <h2 class="card-title">📧 Send Feedback - HARI DARSHINI</h2>
+                    <p class="card-subtitle">We'd love to hear your thoughts about the cricket game!</p>
+                    <form id="feedback-form" onsubmit="submitFeedback(event)">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" id="feedback-name" placeholder="Enter your name" required class="input">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Email</label>
+                            <input type="email" id="feedback-email" placeholder="your.email@example.com" required class="input">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Feedback</label>
+                            <textarea id="feedback-message" placeholder="Tell us what you think about the cricket game..." required rows="6" class="textarea"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-large btn-primary" id="feedback-submit-btn">
+                            📤 Send Feedback
+                        </button>
+                        <p class="hint">Your feedback will be saved locally in your browser</p>
+                    </form>
+                </div>
+                <div id="feedback-success" class="card" style="display: none;">
+                    <div class="success-icon">✅</div>
+                    <h2 class="card-title">Thank You!</h2>
+                    <p class="card-subtitle">Your feedback has been saved successfully.</p>
+                    <p class="feedback-thanks">We appreciate your input! 🙏</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
