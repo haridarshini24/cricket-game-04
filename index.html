@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARI DARSHINI - Cricket Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(180deg, #111827 0%, #1f2937 50%, #111827 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #374151;
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #4ade80;
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: #22c55e;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #9ca3af;
+            border: 1px solid #374151;
+        }
+
+        .btn-outline:hover {
+            background: #374151;
+            color: #fff;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+            width: 100%;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .main-content {
+            padding-top: 5rem;
+            padding-bottom: 2rem;
+            min-height: 100vh;
+        }
+
+        .view {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .card {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            color: #4ade80;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-subtitle {
+            color: #9ca3af;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #d1d5db;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.75rem;
+            background: #374151;
+            border: 1px solid #4b5563;
+            border-radius: 0.375rem;
+            color: #fff;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #4ade80;
+        }
+
+        .instructions {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #111827;
+            border-radius: 0.375rem;
+            text-align: center;
+        }
+
+        .instructions p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin: 0.25rem 0;
+        }
+
+        .score-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .score-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .score-label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4ade80;
+        }
+
+        .cricket-field-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cricket-field {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(180deg, #166534 0%, #15803d 100%);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .stadium-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(180deg, #1f2937 0%, #374151 100%);
+            border-bottom: 3px solid #4b5563;
+        }
+
+        .pitch {
+            position: absolute;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 400px;
+            height: 200px;
+            background: linear-gradient(180deg, #d4a574 0%, #c99966 100%);
+            border: 2px solid #a67c52;
+            border-radius: 10px;
+            opacity: 0.8;
+        }
+
+        .bowler {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .bowler-body {
+            position: relative;
+            width: 40px;
+            height: 80px;
+        }
+
+        .bowler .head {
+            width: 25px;
+            height: 25px;
+            background: #f59e0b;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 2px solid #d97706;
+        }
+
+        .bowler .body {
+            width: 20px;
+            height: 35px;
+            background: #3b82f6;
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+
+        .bowler .arm-left,
+        .bowler .arm-right {
+            width: 15px;
+            height: 4px;
+            background: #f59e0b;
+            position: absolute;
+            top: 30px;
+            border-radius: 2px;
+        }
+
+        .bowler .arm-left {
+            left: -10px;
+            transform: rotate(-45deg);
+        }
+
+        .bowler .arm-right {
+            right: -10px;
+            transform: rotate(45deg);
+        }
+
+        .bowler .leg-left,
+        .bowler .leg-right {
+            width: 6px;
+            height: 25px;
+            background: #1e3a8a;
+            position: absolute;
+            top: 55px;
+            border-radius: 3px;
+        }
+
+        .bowler .leg-left {
+            left: 8px;
+        }
+
+        .bowler .leg-right {
+            right: 8px;
+        }
+
+        .bowler.bowling .arm-right {
+            animation: bowling-arm 0.5s ease-in-out;
+        }
+
+        @keyframes bowling-arm {
+            0% {
+                transform: rotate(45deg);
+            }
+            50% {
+                transform: rotate(-120deg);
+            }
+            100% {
+                transform: rotate(45deg);
+            }
+        }
+
+        .ball {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 30% 30%, #ef4444, #991b1b);
+            border-radius: 50%;
+            top: 28%;
+            left: 50%;
+            z-index: 15;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            animation: ball-travel 0.5s ease-in;
+        }
+
+        @keyframes ball-travel {
+            0% {
+                top: 28%;
+                left: 50%;
+                transform: scale(1);
+            }
+            50% {
+                top: 50%;
+                left: 50%;
+                transform: scale(1.3);
+            }
+            100% {
+                top: 65%;
+                left: 50%;
+                transform: scale(1);
+            }
+        }
+
+        .batsman {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+        }
+
+        .batsman-body {
+            position: relative;
+            width: 50px;
+            height: 90px;
+        }
+
+        .batsman .head {
+            width: 28px;
+            height: 28px;
+            background: #fbbf24;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 2px solid #f59e0b;
+        }
+
+        .batsman .body {
+            width: 22px;
+            height: 38px;
+            background: #10b981;
+            position: absolute;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+
+        .batsman .bat {
+            width: 8px;
+            height: 50px;
+            background: linear-gradient(180deg, #92400e 0%, #78350f 100%);
+            position: absolute;
+            top: 35px;
+            right: -15px;
+            border-radius: 4px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .batsman .leg-left,
+        .batsman .leg-right {
+            width: 7px;
+            height: 28px;
+            background: #065f46;
+            position: absolute;
+            top: 62px;
+            border-radius: 3px;
+        }
+
+        .batsman .leg-left {
+            left: 10px;
+        }
+
+        .batsman .leg-right {
+            right: 10px;
+        }
+
+        .batsman.batting .bat {
+            animation: bat-swing 0.3s ease-in-out;
+        }
+
+        @keyframes bat-swing {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(-90deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .umpire {
+            position: absolute;
+            bottom: 18%;
+            right: 15%;
+            z-index: 5;
+        }
+
+        .umpire-body {
+            position: relative;
+            width: 35px;
+            height: 70px;
+        }
+
+        .umpire .head {
+            width: 22px;
+            height: 22px;
+            background: #f97316;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 2px solid #ea580c;
+        }
+
+        .umpire .body {
+            width: 18px;
+            height: 32px;
+            background: #000000;
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+
+        .umpire .arm-left,
+        .umpire .arm-right {
+            width: 12px;
+            height: 4px;
+            background: #f97316;
+            position: absolute;
+            top: 28px;
+            border-radius: 2px;
+        }
+
+        .umpire .arm-left {
+            left: -8px;
+            transform: rotate(-30deg);
+        }
+
+        .umpire .arm-right {
+            right: -8px;
+            transform: rotate(30deg);
+        }
+
+        .last-shot-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-size: 2rem;
+            font-weight: bold;
+            animation: bounce 0.5s;
+        }
+
+        .last-shot-display.out {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .last-shot-display.six {
+            background: #eab308;
+            color: #000;
+        }
+
+        .last-shot-display.four {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .last-shot-display.runs {
+            background: #22c55e;
+            color: #fff;
+        }
+
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        .game-controls {
+            text-align: center;
+        }
+
+        .hint {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .final-score-card {
+            background: #111827;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .final-score-value {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #4ade80;
+            margin: 1rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #374151;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .leaderboard-entry {
+            background: #374151;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .leaderboard-entry.rank-1 {
+            background: #713f12;
+        }
+
+        .leaderboard-entry.rank-2 {
+            background: #4b5563;
+        }
+
+        .leaderboard-entry.rank-3 {
+            background: #7c2d12;
+        }
+
+        .leaderboard-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rank-icon {
+            font-size: 1.5rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .player-info h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .player-info p {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .score-badge {
+            background: #22c55e;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1f2937;
+            border: 1px solid #4ade80;
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(200%);
+            transition: transform 0.3s;
+            z-index: 2000;
+            max-width: 400px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #9ca3af;
+            padding: 3rem;
+            font-size: 1.125rem;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.25rem;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn {
+                font-size: 0.75rem;
+                padding: 0.375rem 0.75rem;
+            }
+
+            .cricket-field {
+                height: 400px;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .final-score-value {
+                font-size: 3rem;
+            }
+
+            .last-shot-display {
+                font-size: 1.5rem;
+                padding: 0.75rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="container">
+            <h1 class="title">🏏 HARI DARSHINI</h1>
+            <div class="nav-buttons">
+                <button class="btn btn-primary" onclick="showView('game')">Play</button>
+                <button class="btn btn-outline" onclick="showView('scores')">🏆 Scores</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Game View -->
+        <div id="game-view" class="view active">
+            <!-- Menu Screen -->
+            <div id="menu-screen" class="screen active">
+                <div class="card">
+                    <h2 class="card-title">🏏 HARI DARSHINI</h2>
+                    <p class="card-subtitle">Hit as many runs as you can before losing 3 wickets!</p>
+                    <div class="form-group">
+                        <label>Enter Your Name</label>
+                        <input type="text" id="player-name" placeholder="Your name..." class="input">
+                    </div>
+                    <button class="btn btn-large btn-primary" onclick="startGame()">▶ Start Game</button>
+                    <div class="instructions">
+                        <p>🎯 Click "Hit Ball" to play your shot</p>
+                        <p>🏆 Score runs: 0, 1, 2, 3, 4, or 6</p>
+                        <p>⚠️ Avoid getting OUT 3 times!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Playing Screen -->
+            <div id="playing-screen" class="screen">
+                <div class="score-cards">
+                    <div class="score-card">
+                        <div class="score-label">Score</div>
+                        <div class="score-value" id="score-display">0</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-label">Wickets</div>
+                        <div class="score-value" id="wickets-display" style="color:#ef4444">0/3</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-label">Balls</div>
+                        <div class="score-value" id="balls-display" style="color:#3b82f6">0</div>
+                    </div>
+                </div>
+
+                <div class="cricket-field-card">
+                    <div class="cricket-field">
+                        <div class="stadium-bg"></div>
+                        <div class="pitch"></div>
+
+                        <div class="bowler" id="bowler">
+                            <div class="bowler-body">
+                                <div class="head"></div>
+                                <div class="body"></div>
+                                <div class="arm-left"></div>
+                                <div class="arm-right"></div>
+                                <div class="leg-left"></div>
+                                <div class="leg-right"></div>
+                            </div>
+                        </div>
+
+                        <div class="ball" id="ball" style="display:none"></div>
+
+                        <div class="batsman" id="batsman">
+                            <div class="batsman-body">
+                                <div class="head"></div>
+                                <div class="body"></div>
+                                <div class="bat"></div>
+                                <div class="leg-left"></div>
+                                <div class="leg-right"></div>
+                            </div>
+                        </div>
+
+                        <div class="umpire">
+                            <div class="umpire-body">
+                                <div class="head"></div>
+                                <div class="body"></div>
+                                <div class="arm-left"></div>
+                                <div class="arm-right"></div>
+                            </div>
+                        </div>
+
+                        <div class="last-shot-display" id="last-shot" style="display:none"></div>
+                    </div>
+                </div>
+
+                <div class="game-controls">
+                    <button class="btn btn-large btn-primary" id="hit-ball-btn" onclick="playShot()">🏏 Hit Ball!</button>
+                    <p class="hint">Click to play your shot or press Spacebar</p>
+                </div>
+            </div>
+
+            <!-- Game Over Screen -->
+            <div id="gameover-screen" class="screen">
+                <div class="card">
+                    <h2 class="card-title" style="color:#ef4444">Game Over!</h2>
+                    <p class="card-subtitle" id="player-name-display"></p>
+                    <div class="final-score-card">
+                        <div style="color:#9ca3af;font-size:0.875rem">Final Score</div>
+                        <div class="final-score-value" id="final-score">0</div>
+                        <div class="stats-grid">
+                            <div>
+                                <div class="stat-label">Balls Played</div>
+                                <div class="stat-value" id="final-balls">0</div>
+                            </div>
+                            <div>
+                                <div class="stat-label">Wickets Lost</div>
+                                <div class="stat-value" id="final-wickets" style="color:#ef4444">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-large btn-primary" onclick="resetGame()">🔄 Play Again</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scores View -->
+        <div id="scores-view" class="view">
+            <div class="card" style="max-width:900px">
+                <h2 class="card-title">🏆 HARI DARSHINI - Leaderboard</h2>
+                <p class="card-subtitle">Top Cricket Players</p>
+                <div id="leaderboard-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // Game State
+        let gameState = {
+            currentView: 'game',
+            playerName: '',
+            score: 0,
+            wickets: 0,
+            ballsPlayed: 0,
+            isAnimating: false
+        };
+
+        const shots = [0, 1, 2, 3, 4, 6, 'OUT'];
+
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('HARI DARSHINI Cricket Game Loaded!');
+        });
+
+        // View Management
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewName + '-view').classList.add('active');
+            gameState.currentView = viewName;
+            if (viewName === 'scores') {
+                loadLeaderboard();
+            }
+        }
+
+        function showScreen(screenName) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenName + '-screen').classList.add('active');
+        }
+
+        // Game Functions
+        function startGame() {
+            const name = document.getElementById('player-name').value.trim();
+            if (!name) {
+                showToast('⚠️ Please enter your name to start!');
+                return;
+            }
+
+            gameState.playerName = name;
+            gameState.score = 0;
+            gameState.wickets = 0;
+            gameState.ballsPlayed = 0;
+            showScreen('playing');
+            updateScoreDisplay();
+        }
+
+        function playShot() {
+            if (gameState.isAnimating || gameState.wickets >= 3) return;
+
+            gameState.isAnimating = true;
+            const hitBtn = document.getElementById('hit-ball-btn');
+            hitBtn.disabled = true;
+
+            // Bowler animation
+            const bowler = document.getElementById('bowler');
+            bowler.classList.add('bowling');
+
+            setTimeout(() => {
+                document.getElementById('ball').style.display = 'block';
+                bowler.classList.remove('bowling');
+            }, 500);
+
+            setTimeout(() => {
+                document.getElementById('batsman').classList.add('batting');
+                const result = shots[Math.floor(Math.random() * shots.length)];
+
+                if (result === 'OUT') {
+                    gameState.wickets++;
+                } else {
+                    gameState.score += result;
+                }
+                gameState.ballsPlayed++;
+
+                document.getElementById('ball').style.display = 'none';
+                showLastShot(result);
+                updateScoreDisplay();
+
+                if (gameState.wickets >= 3) {
+                    setTimeout(() => endGame(), 1500);
+                }
+            }, 1000);
+
+            setTimeout(() => {
+                document.getElementById('batsman').classList.remove('batting');
+                document.getElementById('last-shot').style.display = 'none';
+                gameState.isAnimating = false;
+                hitBtn.disabled = false;
+            }, 1500);
+        }
+
+        function showLastShot(result) {
+            const el = document.getElementById('last-shot');
+            el.style.display = 'block';
+            el.className = 'last-shot-display';
+
+            if (result === 'OUT') {
+                el.classList.add('out');
+                el.textContent = 'OUT! 🚫';
+            } else if (result === 6) {
+                el.classList.add('six');
+                el.textContent = 'SIX! 🚀';
+            } else if (result === 4) {
+                el.classList.add('four');
+                el.textContent = 'FOUR! 🎉';
+            } else {
+                el.classList.add('runs');
+                el.textContent = result + (result === 1 ? ' Run' : ' Runs');
+            }
+        }
+
+        function updateScoreDisplay() {
+            document.getElementById('score-display').textContent = gameState.score;
+            document.getElementById('wickets-display').textContent = gameState.wickets + '/3';
+            document.getElementById('balls-display').textContent = gameState.ballsPlayed;
+        }
+
+        function endGame() {
+            saveScore();
+            document.getElementById('player-name-display').textContent = 'Well played, ' + gameState.playerName + '!';
+            document.getElementById('final-score').textContent = gameState.score;
+            document.getElementById('final-balls').textContent = gameState.ballsPlayed;
+            document.getElementById('final-wickets').textContent = gameState.wickets;
+            showScreen('gameover');
+        }
+
+        function resetGame() {
+            document.getElementById('player-name').value = '';
+            gameState.playerName = '';
+            gameState.score = 0;
+            gameState.wickets = 0;
+            gameState.ballsPlayed = 0;
+            showScreen('menu');
+        }
+
+        // LocalStorage Functions
+        function saveScore() {
+            try {
+                const scores = JSON.parse(localStorage.getItem('cricket_scores') || '[]');
+                scores.push({
+                    id: Date.now().toString(),
+                    player_name: gameState.playerName,
+                    score: gameState.score,
+                    wickets: gameState.wickets,
+                    timestamp: new Date().toISOString()
+                });
+                scores.sort((a, b) => b.score - a.score);
+                localStorage.setItem('cricket_scores', JSON.stringify(scores.slice(0, 100)));
+                showToast('🎉 Score Saved!');
+            } catch (e) {
+                console.error('Error saving score:', e);
+            }
+        }
+
+        function loadLeaderboard() {
+            const content = document.getElementById('leaderboard-content');
+            try {
+                const scores = JSON.parse(localStorage.getItem('cricket_scores') || '[]');
+                if (scores.length === 0) {
+                    content.innerHTML = '<div class="empty-state">No scores yet. Be the first to play!</div>';
+                    return;
+                }
+
+                let html = '';
+                scores.slice(0, 10).forEach((score, index) => {
+                    const rankClass = index < 3 ? 'rank-' + (index + 1) : '';
+                    const rankIcon = index === 0 ? '🏆' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1);
+
+                    html += '<div class="leaderboard-entry ' + rankClass + '">';
+                    html += '<div class="leaderboard-left">';
+                    html += '<div class="rank-icon">' + rankIcon + '</div>';
+                    html += '<div class="player-info">';
+                    html += '<h3>' + escapeHtml(score.player_name) + '</h3>';
+                    html += '<p>Wickets: ' + score.wickets + '/3</p>';
+                    html += '</div></div>';
+                    html += '<div class="score-badge">' + score.score + '</div>';
+                    html += '</div>';
+                });
+
+                content.innerHTML = html;
+            } catch (e) {
+                content.innerHTML = '<div class="empty-state">Error loading scores</div>';
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Keyboard Controls
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && !gameState.isAnimating) {
+                const playingScreen = document.getElementById('playing-screen');
+                if (playingScreen.classList.contains('active')) {
+                    e.preventDefault();
+                    playShot();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

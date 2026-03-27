@@ -1,186 +1,111 @@
-# 🏏 HARI DARSHINI - Frontend-Only Cricket Game
+# 🏏 HARI DARSHINI - Cricket Game
 
-A fully client-side cricket game built with React. All data is stored in browser localStorage - **no backend required!**
+A fun and interactive cricket game with animated characters and smooth gameplay!
 
-![React](https://img.shields.io/badge/React-19.0-blue)
-![Tailwind](https://img.shields.io/badge/Tailwind-3.4-blue)
-![LocalStorage](https://img.shields.io/badge/Storage-LocalStorage-green)
+## 🎮 Play Now
+
+**[Play the Game](https://your-username.github.io/hari-darshini/)**
 
 ## ✨ Features
 
-- 🏏 **Interactive Cricket Game** - Batsman, bowler, umpire with smooth animations
-- 🏆 **Leaderboard** - Top 10 scores stored in localStorage
-- 🚀 **Workflow Diagram** - Complete development pipeline visualization
-- 📝 **Feedback System** - Save feedback locally
-- 🌙 **Dark Theme** - Professional dark mode
-- 📱 **Fully Responsive** - Works on mobile, tablet, desktop
-- ⚡ **No Backend Needed** - Everything runs in the browser!
+- 🏏 Interactive cricket gameplay
+- 🎨 Smooth character animations (batsman, bowler, umpire)
+- ⚾ Realistic ball physics
+- 🏆 Leaderboard with top scores
+- 🌙 Beautiful dark theme
+- 📱 Mobile & desktop responsive
+- ⌨️ Keyboard controls (Spacebar to hit!)
+- 💾 Scores saved in browser
 
-## 🎮 How to Play
+## 🎯 How to Play
 
 1. Enter your name
-2. Click "Hit Ball" to play your shot
-3. Score runs (0, 1, 2, 3, 4, or 6)
+2. Click "Hit Ball" or press Spacebar
+3. Score runs: 0, 1, 2, 3, 4, or 6
 4. Avoid getting OUT 3 times
-5. Your score is automatically saved!
+5. Try to get the highest score!
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- Node.js 18+ and Yarn
-- Modern web browser
-
-### Installation
+Simply open `index.html` in any modern web browser - no installation required!
 
 ```bash
-# Clone repository
-git clone <your-repo-url>
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/hari-darshini.git
+
+# Open in browser
 cd hari-darshini
-
-# Install dependencies
-cd frontend
-yarn install
-
-# Start development server
-yarn start
+open index.html
 ```
 
-Open http://localhost:3000 in your browser!
+## 🌐 Deploy to GitHub Pages
 
-## 📦 Build for Production
+1. Push this code to your GitHub repository
+2. Go to repository Settings → Pages
+3. Select main branch as source
+4. Your game will be live at: `https://YOUR_USERNAME.github.io/hari-darshini/`
 
-```bash
-cd frontend
-yarn build
+## 💻 Technical Details
+
+- **Pure HTML/CSS/JavaScript** - No frameworks, no dependencies
+- **Single File** - Everything in one `index.html` file
+- **LocalStorage** - Saves scores in browser
+- **Responsive** - Works on all screen sizes
+- **Lightweight** - Only 31 KB total
+
+## 📦 What's Inside
+
+- Complete HTML structure
+- Inline CSS with animations
+- Inline JavaScript with game logic
+- No external dependencies
+- Works offline after first load
+
+## 🎨 Customization
+
+Open `index.html` in any text editor and modify:
+
+**Change Colors:**
+Find the CSS section and update color values:
+```css
+.btn-primary {
+    background: #4ade80; /* Change this */
+}
 ```
 
-The `build/` folder will contain all static files ready to deploy.
+**Change Game Name:**
+Find and replace "HARI DARSHINI" with your preferred name
 
-## 🌐 Deployment Options
-
-### Option 1: Netlify (Easiest)
-```bash
-npm install -g netlify-cli
-cd frontend
-netlify deploy --prod --dir=build
-```
-
-### Option 2: Vercel
-```bash
-npm install -g vercel
-cd frontend
-vercel --prod
-```
-
-### Option 3: GitHub Pages
-```bash
-# Add to package.json:
-"homepage": "https://yourusername.github.io/hari-darshini"
-
-# Deploy
-yarn build
-gh-pages -d build
-```
-
-### Option 4: Traditional FTP
-1. Build: `yarn build`
-2. Upload `build/` folder contents to your hosting
-3. Upload to `public_html/` or `www/` directory
-
-## 💾 Data Storage
-
-All data is stored in **browser localStorage**:
-- **Game Scores**: Up to 100 scores saved locally
-- **Feedback**: All feedback saved in browser
-- **No Database Required**: Everything is client-side!
-
-### Accessing Stored Data
-
-Open browser console and run:
+**Modify Game Rules:**
+Find the shots array in JavaScript:
 ```javascript
-// View all scores
-JSON.parse(localStorage.getItem('cricket_scores'))
-
-// View all feedback
-JSON.parse(localStorage.getItem('cricket_feedback'))
-
-// Clear all data
-localStorage.clear()
+const shots = [0, 1, 2, 3, 4, 6, 'OUT'];
 ```
 
-## 📁 Project Structure
+## 🌟 Features
 
-```
-hari-darshini/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── CricketGame.jsx      # Main game
-│   │   │   ├── Leaderboard.jsx      # Scores
-│   │   │   ├── WorkflowDiagram.jsx  # Dev workflow
-│   │   │   ├── FeedbackForm.jsx     # Feedback
-│   │   │   └── ui/                  # UI components
-│   │   ├── styles/
-│   │   │   └── cricket.css          # Animations
-│   │   ├── App.js                   # Main app
-│   │   └── index.js                 # Entry point
-│   ├── package.json
-│   └── tailwind.config.js
-└── .github/
-    └── workflows/
-        └── ci-cd.yml                # GitHub Actions
-```
+### Gameplay
+- Animated batsman with batting motion
+- Animated bowler with bowling action
+- Ball travel physics
+- Umpire character
+- Stadium background
+- Real-time score tracking
 
-## 🛠️ Tech Stack
+### Scoring System
+- Random outcomes: 0, 1, 2, 3, 4, 6 runs or OUT
+- 3 wickets = Game Over
+- Unlimited balls until 3 wickets lost
+- Scores saved to leaderboard
 
-- **React 19** - UI framework
-- **Tailwind CSS** - Styling
-- **Radix UI** - Component library
-- **Lucide React** - Icons
-- **LocalStorage API** - Data persistence
-- **CSS Animations** - Smooth gameplay animations
+### UI/UX
+- Dark theme design
+- Smooth animations (60fps)
+- Toast notifications
+- Responsive layout
+- Keyboard shortcuts
 
-## ⚙️ Available Scripts
-
-```bash
-# Development
-yarn start          # Start dev server on port 3000
-
-# Production
-yarn build          # Create optimized build
-
-# Testing (optional)
-yarn test           # Run tests
-```
-
-## 🎨 Features Detail
-
-### Cricket Game
-- Animated batsman, bowler, umpire
-- Ball physics and animations
-- Random scoring system
-- 3 wickets game over
-- Auto-save to localStorage
-
-### Leaderboard
-- Top 10 scores displayed
-- Sorted by highest score
-- Shows player name, score, wickets
-- Real-time updates
-
-### Workflow Diagram
-- Visual development pipeline
-- Frontend → Git → GitHub → CI/CD → Deploy
-- FTP deployment option
-- User access flow
-
-### Feedback Form
-- Name, email, message fields
-- Saves to localStorage
-- Form validation
-
-## 🌐 Browser Support
+## 🖥️ Browser Support
 
 - ✅ Chrome/Edge (latest)
 - ✅ Firefox (latest)
@@ -188,92 +113,36 @@ yarn test           # Run tests
 - ✅ Mobile browsers
 - ⚠️ Requires localStorage support
 
-## 🔧 Customization
+## 📱 Mobile Friendly
 
-### Change Colors
+The game automatically adjusts for mobile devices:
+- Touch-friendly buttons
+- Optimized layout
+- Scaled animations
+- Responsive text sizes
 
-Edit `frontend/src/styles/cricket.css`:
-```css
-/* Batsman */
-.batsman .body { background: #10b981; }
+## 🎯 Leaderboard
 
-/* Bowler */
-.bowler .body { background: #3b82f6; }
-
-/* Field */
-.cricket-field { 
-  background: linear-gradient(180deg, #166534 0%, #15803d 100%);
-}
-```
-
-### Change Game Rules
-
-Edit `frontend/src/components/CricketGame.jsx`:
-```javascript
-// Line 27 - Available shots
-const shots = [0, 1, 2, 3, 4, 6, "OUT"];
-
-// Line 64 - Wickets limit
-if (wickets >= 3)  // Change to any number
-```
-
-## 📝 GitHub Actions CI/CD
-
-Automated build pipeline included:
-- ✅ Builds on every push
-- ✅ Creates index.html
-- ✅ Tests build success
-- ✅ Ready for deployment
-
-## 🎯 Performance
-
-- ⚡ Fast loading (no API calls)
-- 💾 Minimal storage usage
-- 🚀 Instant responses
-- 📱 Mobile optimized
-- 🎨 Smooth 60fps animations
+- Top 10 scores displayed
+- Stored in browser localStorage
+- Ranked by highest score
+- Shows player name and wickets
 
 ## 🔒 Privacy
 
-- ✅ No data sent to servers
-- ✅ Everything stored locally
-- ✅ No cookies or tracking
-- ✅ Works offline (after first load)
-- ✅ Complete privacy
-
-## 🆘 Troubleshooting
-
-### Scores not saving
-- Check if localStorage is enabled in browser
-- Try clearing cache and reload
-
-### Build fails
-```bash
-cd frontend
-rm -rf node_modules
-yarn install
-yarn build
-```
-
-### Page not loading
-- Clear browser cache
-- Check console for errors
-- Ensure JavaScript is enabled
+- No data sent to servers
+- Everything stored locally in browser
+- No cookies or tracking
+- Works completely offline
 
 ## 📄 License
 
-Open source - feel free to use and modify!
+Free to use and modify!
 
 ## 🙏 Credits
 
-Built with:
-- React 19
-- Tailwind CSS
-- Radix UI
-- LocalStorage API
+Created with ❤️ using pure HTML, CSS, and JavaScript
 
 ---
 
-**No backend, no database, no complications - just pure cricket fun! 🏏⚡**
-
-For questions, use the in-app feedback form!
+**Enjoy the game! 🏏🎉**
